@@ -23,7 +23,6 @@ load_dotenv()
 
 def setup_streamlit_page():
     st.set_page_config(page_title="🐇 WhatsUpDoc")
-    st.title('🐇 WhatsUpDoc')
     st.sidebar.title('🐇 WhatsUpDoc')
     st.sidebar.markdown("""
     WhatsUpDoc is a **search engine** for your tech stack's documentation and broader knowledge base. 
@@ -32,7 +31,7 @@ def setup_streamlit_page():
 
 
 def initialize_globals():
-    openai_api_key = os.getenv("OPENAI_API_KEY") or st.sidebar.text_input('OpenAI API Key')
+    openai_api_key = os.getenv("OPENAI_API_KEY")
     supabase_url = os.getenv("SUPABASE_URL")
     supabase_key = os.getenv("SUPABASE_SERVICE_KEY")
     supabase = create_client(supabase_url, supabase_key)
@@ -42,8 +41,7 @@ def initialize_globals():
 
 def configure_sidebar():
     with st.sidebar:
-        st.markdown('This is a **demo** of the WhatsUpDoc app. Please enter your OpenAI API key below to get started.')
-        st.markdown('The app is currently in **alpha** and is under active development.')
+        st.markdown('The app is currently in **alpha**.')
         st.divider()
 
         tech_stack_options = {
@@ -62,13 +60,24 @@ def configure_sidebar():
 
         st.divider()
         with st.form('waitlist_form'):
-            st.text_input('Join the waitlist for early access to the app:', placeholder='e.g. harrisonchase@gmail.com')
-            st.form_submit_button("Submit")
+            email_input = st.text_input('Join the waitlist for early access to the app:', placeholder='e.g. harrisonchase@gmail.com')
+            submit_waitlist_button = st.form_submit_button("Submit")
+
+            if submit_waitlist_button:
+              if email_input:
+                  # Perform actions with the email (e.g., store it, send a confirmation, etc.)
+
+                  st.sidebar.write(f"Thank you for signing up with email: {email_input}")
+              else:
+                  st.sidebar.error("Please enter a valid email address.")
+        if not openai_api_key:
+          st.divider()
+          st.markdown('This is a **demo** of the WhatsUpDoc app. Please enter your OpenAI API key below to get started.')
+          st.sidebar.text_input('OpenAI API Key')
 
     return tech_stack_options[tech_stack]
 
 def generate_response(input_text, chat_box):
-
   compression_retriever = get_retriever()
   qa_chain = get_qa_chain(compression_retriever, chat_box)
 
