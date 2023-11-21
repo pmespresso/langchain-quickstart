@@ -30,7 +30,7 @@ tech_stack_table_name = {
   'NextJS': 'nextjs_documents',
   'Stripe SDK': 'stripe_documents',
   'Langchain SDK': 'langchain_documents',
-  'Supabase SDK': 'supabase_documents',
+  'Streamlit SDK': 'streamlit_documents',
 }
 
 with st.sidebar:
