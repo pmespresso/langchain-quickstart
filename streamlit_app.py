@@ -76,10 +76,26 @@ def generate_response(input_text, chat_box):
 
   st.markdown(result['answer'])
 
+  print (result.keys())
 
-  if result['source_documents']:
-    for document in result['source_documents']:
-      st.markdown(document['page_content'])
+  source_documents = result.get('source_documents')
+
+  if source_documents:
+    st.header("Sources")
+    for document in source_documents:
+        if document:
+            # Access attributes directly
+            # page_content = document.page_content
+            metadata = document.metadata
+
+            # If you need to access specific metadata attributes
+            if metadata:
+                # location = metadata.get('loc', 'No location provided')
+                source = metadata.get('source', 'No source provided')
+
+                # Use location and source as needed
+                # st.markdown(f"Location: {location}")
+                st.markdown(f"{source}")
 
 def run_main_application(tech_stack, openai_api_key):
     st.title(tech_stack)
