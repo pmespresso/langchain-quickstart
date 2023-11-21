@@ -15,7 +15,7 @@ from langchain.retrievers import RePhraseQueryRetriever
 from langchain.memory import ConversationBufferMemory
 # from langchain.text_splitter import CharacterTextSplitter
 # from langchain.document_transformers import EmbeddingsRedundantFilter
-from stream_handler import StreamHandler
+from .stream_handler import StreamHandler
 
 load_dotenv()
 
