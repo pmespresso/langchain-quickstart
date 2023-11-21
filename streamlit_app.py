@@ -24,11 +24,12 @@ load_dotenv()
 
 # Function to call the API for license key verification
 def verify_license_key(license_key):
-    url = "YOUR_API_ENDPOINT"  # Replace with your API endpoint
+    url = "https://api.lemonsqueezy.com/v1/licenses/validate"
+    headers = {"Accept": "application/json"}
     data = {"license_key": license_key}
-    response = requests.post(url, json=data)
-    return response.ok  # or any other logic based on your API response
-
+    response = requests.post(url, headers=headers, data=data)
+    # Assuming a successful response indicates a valid license key
+    return response.ok
 
 def setup_streamlit_page():
     st.set_page_config(page_title="🐇 WhatsUpDoc")
@@ -68,7 +69,7 @@ def configure_sidebar():
         )
 
         st.divider()
-        
+
         # Form for license key input
         with st.form("license_key_form"):
             license_key = st.text_input("License Key", "")
