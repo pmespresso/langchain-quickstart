@@ -1,4 +1,5 @@
 import streamlit as st
+import requests
 import os
 from dotenv import load_dotenv
 from langchain.schema import HumanMessage
@@ -20,6 +21,14 @@ from utils.stream_handler import StreamHandler
 
 # Load environment variables
 load_dotenv()
+
+# Function to call the API for license key verification
+def verify_license_key(license_key):
+    url = "YOUR_API_ENDPOINT"  # Replace with your API endpoint
+    data = {"license_key": license_key}
+    response = requests.post(url, json=data)
+    return response.ok  # or any other logic based on your API response
+
 
 def setup_streamlit_page():
     st.set_page_config(page_title="🐇 WhatsUpDoc")
@@ -59,17 +68,28 @@ def configure_sidebar():
         )
 
         st.divider()
-        with st.form('waitlist_form'):
-            email_input = st.text_input('Join the waitlist for early access to the app:', placeholder='e.g. harrisonchase@gmail.com')
-            submit_waitlist_button = st.form_submit_button("Submit")
+        
+        # Form for license key input
+        with st.form("license_key_form"):
+            license_key = st.text_input("License Key", "")
+            submitted = st.form_submit_button("Verify")
 
-            if submit_waitlist_button:
-              if email_input:
-                  # Perform actions with the email (e.g., store it, send a confirmation, etc.)
+            if submitted:
+                if verify_license_key(license_key):
+                    st.success("Verified License Key")
+                    verified = True
+                else:
+                    st.error("Invalid License Key")
+                    verified = False
+            else:
+                verified = False
+        
+        # Display the button for the deal only if the license key is verified
+        if not verified:
+            deal_link = 'https://whatsupdoc.lemonsqueezy.com/checkout/buy/7a80a616-ef60-4fe6-9ff0-d67acacc8ab0'
+            st.markdown(f"<a href='{deal_link}' target='_blank'><button style='background-color: #FF4B4B; color: white; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;'>👉 Get Limited Lifetime Deal $29.99</button></a>", unsafe_allow_html=True)
 
-                  st.sidebar.write(f"Thank you for signing up with email: {email_input}")
-              else:
-                  st.sidebar.error("Please enter a valid email address.")
+
         if not openai_api_key:
           st.divider()
           st.markdown('This is a **demo** of the WhatsUpDoc app. Please enter your OpenAI API key below to get started.')
