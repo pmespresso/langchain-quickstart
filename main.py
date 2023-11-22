@@ -62,6 +62,7 @@ def initialize_globals():
 def configure_sidebar():
     with st.sidebar:
         st.markdown('The app is currently in **alpha**.')
+        st.markdown('[Learn more about WhatsUpDoc](/about).')
         st.divider()
 
         tech_stack_options = {
@@ -120,7 +121,7 @@ def configure_sidebar():
         # Display the button for the deal only if the license key is verified
         if not st.session_state.verified:
             deal_link = 'https://whatsupdoc.lemonsqueezy.com/checkout/buy/7a80a616-ef60-4fe6-9ff0-d67acacc8ab0'
-            st.markdown(f"<a href='{deal_link}' target='_blank'><button style='background-color: #FF4B4B; color: white; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;'>👉 Get Limited Lifetime Deal $29.99</button></a>", unsafe_allow_html=True)
+            st.markdown(f"<a href='{deal_link}' target='_blank'><button style='background-color: #FF4B4B; color: white; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;'>👉 Get Limited Lifetime Deal $9.99</button></a>", unsafe_allow_html=True)
 
         # If OpenAI API Key is not yet set, display the form to set it
         if not st.session_state.openai_api_key:
