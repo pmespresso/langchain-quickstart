@@ -65,11 +65,31 @@ def configure_sidebar():
         st.divider()
 
         tech_stack_options = {
-            'Tailwind CSS': 'tailwind_documents',
-            'NextJS': 'nextjs_documents',
-            'Stripe SDK': 'stripe_documents',
-            'Langchain SDK': 'langchain_documents',
-            'Streamlit SDK': 'streamlit_documents',
+            'Tailwind CSS': {
+                'table_name': 'tailwind_documents',
+                'heading': 'Tailwind CSS Documentation + Github Discussions',
+                'placeholder_query': 'How do I set a gradient from teal to blue to purple to a full page background in Tailwind?'
+            },
+            'NextJS': {
+                'table_name': 'nextjs_documents',
+                'heading': 'NextJS Documentation + Github Discussions',
+                'placeholder_query': 'Can you help me migrate my app from page router to apps router in NextJS?'
+            },
+            'Stripe SDK': {
+                'table_name': 'stripe_documents',
+                'heading': 'Stripe SDK Documentation + Stripe Guides',
+                'placeholder_query': 'How do I create a customer with Stripe?'
+            },
+            'Langchain SDK': {
+                'table_name': 'langchain_documents',
+                'heading': 'Langchain SDK Documentation + Github Discussions',
+                'placeholder_query': 'How do I do RAG with Chroma using Langchain?'
+            },
+            'Streamlit SDK': {
+                'table_name': 'streamlit_documents',
+                'heading': 'Streamlit SDK Documentation + Discuss Forum',
+                'placeholder_query': 'How do I create an LLM app with Streamlit?'
+            },
         }
         tech_stack = st.selectbox(
             label="Choose Tech", 
@@ -126,8 +146,8 @@ def get_retriever():
         embedding=embeddings,
         client=supabase_client,
         chunk_size=100,
-        table_name=tech_stack,
-        query_name=f"match_{tech_stack}",
+        table_name=tech_stack['table_name'],
+        query_name=f"match_{tech_stack['table_name']}",
     )
 
     relevant_filter = EmbeddingsFilter(embeddings=embeddings, similarity_threshold=0.76)
@@ -181,7 +201,7 @@ def generate_response(input_text, chat_box):
                 st.markdown(f"{source}")
 
 def run_main_application(tech_stack, verified, openai_api_key):
-    st.title(tech_stack)
+    st.title(tech_stack['heading'])
 
     # Check if the license key is verified
     if not verified:
@@ -189,7 +209,7 @@ def run_main_application(tech_stack, verified, openai_api_key):
         st.markdown("Go to the sidebar to enter and verify your license key.")
     else:
       with st.form('main'):
-          text = st.text_area('Enter text:', 'How do I set a gradient from teal to blue to purple to a full page background?')
+          text = st.text_area('Enter text:', tech_stack['placeholder_query'])
           submitted = st.form_submit_button('Submit')
           if not openai_api_key or not openai_api_key.startswith('sk-'):
               st.warning('Please enter your OpenAI API key!', icon='⚠️')
