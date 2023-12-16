@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import os
 from dotenv import load_dotenv
-from langchain.schema import HumanMessage
+# from langchain.schema import HumanMessage
 from supabase.client import Client, create_client
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores.supabase import SupabaseVectorStore
@@ -12,7 +12,7 @@ from langchain.retrievers.document_compressors import EmbeddingsFilter
 from langchain.document_transformers import LongContextReorder
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationalRetrievalChain, RetrievalQA
-from langchain.retrievers import RePhraseQueryRetriever
+# from langchain.retrievers import RePhraseQueryRetriever
 from langchain.memory import ConversationBufferMemory
 # from langchain.text_splitter import CharacterTextSplitter
 # from langchain.document_transformers import EmbeddingsRedundantFilter
@@ -42,6 +42,12 @@ def verify_license_key(license_key):
 
 def setup_streamlit_page():
     st.set_page_config(page_title="WhatsUpDoc 🐇")
+            # Display the button for the deal only if the license key is verified
+    if not st.session_state.verified:
+        deal_link = 'https://whatsupdoc.lemonsqueezy.com/checkout/buy/7a80a616-ef60-4fe6-9ff0-d67acacc8ab0'
+        st.markdown(f"<a href='{deal_link}' target='_blank'><button style='width: 100%; border-radius: 4px; background-color: #FF4B4B; color: white; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;'>👉 Get Limited Lifetime Deal $9.99</button></a>", unsafe_allow_html=True)
+        st.caption("Limited Lifetime Deal is only available for a limited time. :red[We will increase the price by $4.99 for every 5 integrations]. Get it now before the price increases!")
+
     st.sidebar.title('WhatsUpDoc 🐇')
     st.sidebar.markdown("""
     WhatsUpDoc is a **search engine** for your tech stack's documentation and broader knowledge base. 
@@ -91,6 +97,11 @@ def configure_sidebar():
                 'heading': 'Streamlit SDK Documentation + Discuss Forum',
                 'placeholder_query': 'How do I create an LLM app with Streamlit?'
             },
+            'PaddleJS': {
+                'table_name': 'paddle_documents',
+                'heading': 'PaddleJS Documentation',
+                'placeholder_query': 'How do I create a checkout overlay with PaddleJS?'
+            }
         }
         tech_stack = st.selectbox(
             label="Choose Tech", 
@@ -118,10 +129,6 @@ def configure_sidebar():
                       st.session_state.verified = False
                       st.error("Invalid License Key")
                       
-        # Display the button for the deal only if the license key is verified
-        if not st.session_state.verified:
-            deal_link = 'https://whatsupdoc.lemonsqueezy.com/checkout/buy/7a80a616-ef60-4fe6-9ff0-d67acacc8ab0'
-            st.markdown(f"<a href='{deal_link}' target='_blank'><button style='background-color: #FF4B4B; color: white; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;'>👉 Get Limited Lifetime Deal $9.99</button></a>", unsafe_allow_html=True)
 
         # If OpenAI API Key is not yet set, display the form to set it
         if not st.session_state.openai_api_key:
@@ -138,6 +145,9 @@ def configure_sidebar():
                   st.error("OpenAI API Key is Not Set")
         else:
           st.success("OpenAI API Key is Set")
+        st.caption("Vote For the Next Integration 👇")
+        st.link_button("Join our Discord 👾", url='https://discord.gg/VjEhmn2h')
+        
 
 
     return tech_stack_options[tech_stack]
@@ -183,10 +193,6 @@ def generate_response(input_text, chat_box):
 
   result = qa_chain({ "question": input_text })
 
-  st.markdown(result['answer'])
-
-  print (result.keys())
-
   source_documents = result.get('source_documents')
 
   if source_documents:
@@ -206,7 +212,7 @@ def run_main_application(tech_stack, verified, openai_api_key):
 
     # Check if the license key is verified
     if not verified:
-        st.warning("Please verify your license key before using the app!", icon="⚠️")
+        st.warning("Please verify your license key before using the app.", icon="⚠️")
         st.markdown("Go to the sidebar to enter and verify your license key.")
     else:
       with st.form('main'):
