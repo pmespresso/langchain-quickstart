@@ -75,14 +75,32 @@ def setup_streamlit_page():
         name="keywords"
         content="WhatsUpDoc,Documentation,Search Engine,Tech Stack,Knowledge Base, Github, OpenAI, AI, Talk to Docs"
     />
-    <meta name="description" content="WhatsUpDoc - Talk to Your Docs, Discussions, Knowledgebase. More Up to Date than ChatGPT.">
+    <meta name="description" content="🐇 WhatsUpDoc - Talk to Your Tech Documentation, Github Discussion, and Extended Knowledge Base. More Up to Date than ChatGPT.">
     <meta name="keywords" content="WhatsUpDoc,Documentation,Search Engine,Tech Stack,Knowledge Base, Github, OpenAI, AI">
     <meta name="author" content="0xyjkim">
     <meta property="og:title" content="🐇 WhatsUpDoc" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="🐇 WhatsUpDoc - Talk to Your Docs, Discussions, Knowledgebase. More Up to Date than ChatGPT." />
+    <meta property="og:description" content="🐇 WhatsUpDoc - Talk to Your Tech Documentation, Github Discussion, and Extended Knowledge Base. More Up to Date than ChatGPT." />
     <meta property="og:image" content="https://github.com/pmespresso/whatsupdoc/assets/10432070/9a8bceee-869b-498a-b419-75b9930cb403" />
     <meta property="og:url" content="https://www.whatsupdoc.dev" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://whatsupdoc.dev" />
+
+    <meta name="twitter:site" content="@0xyjkim" />
+    <meta name="twitter:creator" content="@0xyjkim" />
+    <meta
+        property="twitter:image"
+        content="https://github.com/pmespresso/whatsupdoc/assets/10432070/9a8bceee-869b-498a-b419-75b9930cb403"
+    />
+    <meta
+        property="twitter:title"
+        content="🐇 WhatsUpDoc"
+    />
+    <meta
+        property="twitter:description"
+        content="Talk to Your Tech Documentation, Github Discussion, and Extended Knowledge Base. More Up to Date than ChatGPT."
+    />
     </head>
     """
 
