@@ -41,7 +41,26 @@ def verify_license_key(license_key):
     return response.ok
 
 def setup_streamlit_page():
-    st.set_page_config(page_title="WhatsUpDoc 🐇")
+    # Set page title and favicon
+    st.set_page_config(page_title="WhatsUpDoc 🐇", page_icon="🐇")
+
+    # Define your meta tags and OG tags
+    meta_tags_html = """
+    <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="WhatsUpDoc - Talk to Your Docs, Discussions, Knowledgebase. More Up to Date than ChatGPT.">
+    <meta name="keywords" content="WhatsUpDoc,Documentation,Search Engine,Tech Stack,Knowledge Base, Github, OpenAI, AI">
+    <meta name="author" content="0xyjkim">
+    <meta property="og:title" content="WhatsUpDoc 🐇" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="WhatsUpDoc - Talk to Your Docs, Discussions, Knowledgebase. More Up to Date than ChatGPT." />
+    <meta property="og:image" content="https://www.whatsupdoc.dev/og_image" />
+    <meta property="og:url" content="https://www.whatsupdoc.dev" />
+    </head>
+    """
+
+    # Use st.markdown to insert HTML into the Streamlit app
+    st.markdown(meta_tags_html, unsafe_allow_html=True)
             # Display the button for the deal only if the license key is verified
     if not st.session_state.verified:
         deal_link = 'https://whatsupdoc.lemonsqueezy.com/checkout/buy/7a80a616-ef60-4fe6-9ff0-d67acacc8ab0'
@@ -87,9 +106,9 @@ def configure_sidebar():
                 'heading': 'Stripe SDK Documentation + Stripe Guides',
                 'placeholder_query': 'How do I create a customer with Stripe?'
             },
-            'Langchain SDK': {
+            'Langchain Python SDK': {
                 'table_name': 'langchain_documents',
-                'heading': 'Langchain SDK Documentation + Github Discussions',
+                'heading': 'Langchain Python SDK Documentation + Github Discussions',
                 'placeholder_query': 'How do I do RAG with Chroma using Langchain?'
             },
             'Streamlit SDK': {
