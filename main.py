@@ -108,7 +108,7 @@ def setup_streamlit_page():
     st.markdown(meta_tags_html, unsafe_allow_html=True)
             # Display the button for the deal only if the license key is verified
     if not st.session_state.verified:
-        deal_link = 'https://whatsupdoc.lemonsqueezy.com/checkout/buy/7a80a616-ef60-4fe6-9ff0-d67acacc8ab0'
+        deal_link = 'https://whatsupdoc.lemonsqueezy.com/checkout/buy/3ad0977c-3921-453b-aaa5-c94df765fe88'
         st.markdown(f"<a href='{deal_link}' target='_blank'><button style='width: 100%; border-radius: 4px; background-color: #FF4B4B; color: white; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;'>👉 Get Limited Lifetime Deal $9.99</button></a>", unsafe_allow_html=True)
         st.caption("Limited Lifetime Deal is only available for a limited time. :red[We will increase the price by $4.99 for every 5 integrations]. Get it now before the price increases!")
 
