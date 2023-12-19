@@ -114,8 +114,7 @@ def setup_streamlit_page():
 
     st.sidebar.title('WhatsUpDoc 🐇')
     st.sidebar.markdown("""
-    WhatsUpDoc is a **search engine** for your tech stack's documentation and broader knowledge base. 
-    It uses **OpenAI** to understand your questions and **Langchain** to search your tech stack's documentation and broader knowledge base.
+    Chat with your tech stack's up-to-date documentation and broader knowledge base (including Github Discussions, Forums, etc.).
     """)
 
 

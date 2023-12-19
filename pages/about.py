@@ -5,6 +5,8 @@ def main():
     st.title("About WhatsUpDoc 🐇")
 
     st.markdown("""
+        Chat with your tech stack's up-to-date documentation and broader knowledge base (including Github
+            Discussions, Forums, etc.).
         ## The Problem
         Navigating tech documentation is like finding a needle in a haystack. Developers waste hours in this maze. Existing AI tools? Outdated or unspecific. The result? Frustration.
 
