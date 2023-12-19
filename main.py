@@ -176,7 +176,7 @@ def configure_sidebar():
 
         st.divider()
 
-        # Display the verification message if the license key is already verified
+        # Display the verification message if license key is already verified
         if st.session_state.get('verified', False):
             st.success("License Key Verified")
         else:
