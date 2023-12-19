@@ -120,12 +120,12 @@ def setup_streamlit_page():
 
 
 def initialize_globals():
-    openai_api_key = os.getenv("OPENAI_API_KEY") or st.session_state.openai_api_key
+    openai_api_key = st.session_state.openai_api_key
     verified = st.session_state.verified
     supabase_url = os.getenv("SUPABASE_URL")
     supabase_key = os.getenv("SUPABASE_SERVICE_KEY")
     supabase = create_client(supabase_url, supabase_key)
-    embeddings = OpenAIEmbeddings()
+    embeddings = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))
     return openai_api_key, supabase, embeddings, verified
 
 
@@ -136,6 +136,21 @@ def configure_sidebar():
         st.divider()
 
         tech_stack_options = {
+            'Langchain Python SDK': {
+                'table_name': 'langchain_documents',
+                'heading': 'Langchain Python SDK Documentation + Github Discussions',
+                'placeholder_query': 'How do I do RAG with Chroma using Langchain?'
+            },
+            'Streamlit SDK': {
+                'table_name': 'streamlit_documents',
+                'heading': 'Streamlit SDK Documentation + Discuss Forum',
+                'placeholder_query': 'How do I create an LLM app with Streamlit?'
+            },
+            'PaddleJS': {
+                'table_name': 'paddle_documents',
+                'heading': 'PaddleJS Documentation',
+                'placeholder_query': 'How do I create a checkout overlay with PaddleJS?'
+            },
             'Tailwind CSS': {
                 'table_name': 'tailwind_documents',
                 'heading': 'Tailwind CSS Documentation + Github Discussions',
@@ -151,21 +166,6 @@ def configure_sidebar():
                 'heading': 'Stripe SDK Documentation + Stripe Guides',
                 'placeholder_query': 'How do I create a customer with Stripe?'
             },
-            'Langchain Python SDK': {
-                'table_name': 'langchain_documents',
-                'heading': 'Langchain Python SDK Documentation + Github Discussions',
-                'placeholder_query': 'How do I do RAG with Chroma using Langchain?'
-            },
-            'Streamlit SDK': {
-                'table_name': 'streamlit_documents',
-                'heading': 'Streamlit SDK Documentation + Discuss Forum',
-                'placeholder_query': 'How do I create an LLM app with Streamlit?'
-            },
-            'PaddleJS': {
-                'table_name': 'paddle_documents',
-                'heading': 'PaddleJS Documentation',
-                'placeholder_query': 'How do I create a checkout overlay with PaddleJS?'
-            }
         }
         tech_stack = st.selectbox(
             label="Choose Tech", 
