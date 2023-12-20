@@ -16,6 +16,11 @@ from langchain.chains import ConversationalRetrievalChain, RetrievalQA
 from langchain.memory import ConversationBufferMemory
 # from langchain.text_splitter import CharacterTextSplitter
 # from langchain.document_transformers import EmbeddingsRedundantFilter
+from langchain.prompts import (
+    ChatPromptTemplate,
+    HumanMessagePromptTemplate,
+    SystemMessagePromptTemplate,
+)
 from utils.stream_handler import StreamHandler
 
 # Load environment variables
@@ -149,31 +154,37 @@ def configure_sidebar():
 
         tech_stack_options = {
             'Langchain Python SDK': {
+                'name': 'Langchain Python SDK',
                 'table_name': 'langchain_documents',
                 'heading': 'Langchain Python SDK Documentation + Github Discussions',
                 'placeholder_query': 'How do I do RAG with Chroma using Langchain?'
             },
             'Streamlit SDK': {
+                'name': 'Streamlit SDK',
                 'table_name': 'streamlit_documents',
                 'heading': 'Streamlit SDK Documentation + Discuss Forum',
                 'placeholder_query': 'How do I create an LLM app with Streamlit?'
             },
             'PaddleJS': {
+                'name': 'PaddleJS',
                 'table_name': 'paddle_documents',
                 'heading': 'PaddleJS Documentation',
                 'placeholder_query': 'How do I create a checkout overlay with PaddleJS?'
             },
             'Tailwind CSS': {
+                'name': 'Tailwind CSS',
                 'table_name': 'tailwind_documents',
                 'heading': 'Tailwind CSS Documentation + Github Discussions',
                 'placeholder_query': 'How do I set a gradient from teal to blue to purple to a full page background in Tailwind?'
             },
             'NextJS': {
+                'name': 'NextJS',
                 'table_name': 'nextjs_documents',
                 'heading': 'NextJS Documentation + Github Discussions',
                 'placeholder_query': 'Can you help me migrate my app from page router to apps router in NextJS?'
             },
             'Stripe SDK': {
+                'name': 'Stripe SDK',
                 'table_name': 'stripe_documents',
                 'heading': 'Stripe SDK Documentation + Stripe Guides',
                 'placeholder_query': 'How do I create a customer with Stripe?'
@@ -253,13 +264,42 @@ def get_retriever():
 
 
 def get_qa_chain(compression_retriever: ContextualCompressionRetriever, chat_box):
+  
+  system_message=f"You are a helpful assistant named WhatsUpDoc with particular expertise in {tech_stack['name']}. \n" + """
+    - Take a deep breath before answering.
+    - Be casual unless otherwise specified
+    - Suggest solutions that I didn’t think about—anticipate my needs
+    - Treat me as an expert
+    - Be accurate and thorough
+    - Give the answer immediately. Provide detailed explanations and favor examples over theory.
+    - Give accurate and precise answers, favoring code blocks over text
+    - Value good arguments over authorities, the source is irrelevant
+    - No moral lectures
+    - Discuss safety only when it's crucial and non-obvious
+    - Cite sources whenever possible at the end, not inline
+    - No need to mention your knowledge cutoff
+    - No need to disclose you're an AI
+    - Please respect my prettier preferences when you provide code.
+    - This is important to our career.
+    - Please don't be rude. The context is: \n{context}"""
+  
+  system_message_prompt = SystemMessagePromptTemplate.from_template(system_message)
+  human_message_prompt = HumanMessagePromptTemplate.from_template(
+        "{question}"
+    )
+
   # Instantiate ConversationBufferMemory
   memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True, output_key='answer')
 
   stream_handler = StreamHandler(chat_box, display_method='markdown')
-  llm = ChatOpenAI(temperature=0.3, model='gpt-4-1106-preview', streaming=True, callbacks=[stream_handler])
+  llm = ChatOpenAI(temperature=0.5, model='gpt-4-1106-preview', streaming=True, callbacks=[stream_handler])
 
-  qa = ConversationalRetrievalChain.from_llm(llm=llm, retriever=compression_retriever, memory=memory, return_source_documents=True)
+  qa = ConversationalRetrievalChain.from_llm(llm=llm, retriever=compression_retriever, memory=memory, return_source_documents=True,   combine_docs_chain_kwargs={
+        "prompt": ChatPromptTemplate.from_messages([
+            system_message_prompt,
+            human_message_prompt,
+        ]),
+    },)
 
   return qa
 
