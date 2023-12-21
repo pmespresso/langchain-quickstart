@@ -327,7 +327,8 @@ def generate_response(input_text, chat_box):
             # page_content = document.page_content
             metadata = document.metadata
 
-            # If you need to access specific metadata attributes
+            # If you need to access specific metadata at
+            # tributes
             if metadata:
                 source = metadata.get('source', 'No source provided')
                 st.markdown(f"{source}")
@@ -350,8 +351,29 @@ def run_main_application(tech_stack, verified, openai_api_key):
               generate_response(text, chat_box)
 
 
-# Setup Streamlit page configuration
-setup_streamlit_page()
+
+if not st.session_state.verified:
+    with st.container():
+        left_col, right_col = st.columns([2, 1])
+        with left_col:
+            st.markdown("""
+            **WhatsUpDoc** leverages AI to provide intuitive, conversational access to tech documentation, forums, and more.
+            - Up to date with the latest releases
+            - Get concise, accurate answers with sources, with a bias for examples
+            - Access to not only documented knowledge but also forums and Github Discussions
+            - Incorporate the latest updates and community insights
+            """)
+            st.markdown("[Get Started with WhatsUpDoc](https://whatsupdoc.lemonsqueezy.com/checkout/buy/3ad0977c-3921-453b-aaa5-c94df765fe88)")
+        
+        with right_col:
+            st.image("og_image.gif", caption="WhatsUpDoc in Action")
+
+        st.subheader("What Our Users Say")
+        with st.container():
+            st.image('testimonial_1.png', width=500)
+else:
+    # Setup Streamlit page configuration
+    setup_streamlit_page()
 
 # Initialize global variables
 openai_api_key, supabase_client, embeddings, verified = initialize_globals()
