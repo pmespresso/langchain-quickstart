@@ -16,6 +16,14 @@ lemonsqueezy_product_data = response.json().get('data')
 def main():
     st.set_page_config(page_title="About WhatsUpDoc 🐇", layout="wide")
     st.title("About WhatsUpDoc 🐇")
+    st.divider()
+    # Embed Product Hunt badge
+    product_hunt_badge = """
+    <a href="https://www.producthunt.com/posts/whatsupdoc?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-whatsupdoc" target="_blank">
+        <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=430705&theme=light" alt="WhatsUpDoc - Chat with up-to-date knowledge base @Docs, Forums, etc! | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
+    </a>
+    """
+    st.sidebar.markdown(product_hunt_badge, unsafe_allow_html=True)
 
     st.markdown("""
         Chat with your tech stack's up-to-date documentation and broader knowledge base (including Github

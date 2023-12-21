@@ -11,6 +11,9 @@ headers = {
     'Authorization': f'Bearer {lemonsqueezy_api_key}'
 }
 
+    # # Deal button
+    # st.markdown(f"<a href='{deal_link}' target='_blank'><button style='width: 100%; border-radius: 4px; background-color: #FF4B4B; color: white; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;'>👉 Get Limited Lifetime Deal {price_formatted}</button></a>", unsafe_allow_html=True)
+
 # Get the product information from the LemonSqueezy API
 response = requests.get(lemonsqueezy_product_endpoint, headers=headers)
 lemonsqueezy_product_data = response.json().get('data')
@@ -19,7 +22,14 @@ def main():
     st.set_page_config(page_title="FAQs - WhatsUpDoc 🐇", layout="wide")
     # FAQ Section
     st.header("FAQs - WhatsUpDoc 🐇")
-
+    st.divider()
+    # Embed Product Hunt badge
+    product_hunt_badge = """
+    <a href="https://www.producthunt.com/posts/whatsupdoc?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-whatsupdoc" target="_blank">
+        <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=430705&theme=light" alt="WhatsUpDoc - Chat with up-to-date knowledge base @Docs, Forums, etc! | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
+    </a>
+    """
+    st.sidebar.markdown(product_hunt_badge, unsafe_allow_html=True)
     # Expanders for each FAQ
     with st.expander("What is WhatsUpDoc?"):
         st.write("""

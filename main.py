@@ -148,7 +148,14 @@ def initialize_globals():
 
 def configure_sidebar():
     with st.sidebar:
-        st.markdown('The app is currently in **alpha**.')
+        # Embed Product Hunt badge
+        product_hunt_badge = """
+        <a href="https://www.producthunt.com/posts/whatsupdoc?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-whatsupdoc" target="_blank">
+            <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=430705&theme=light" alt="WhatsUpDoc - Chat with up-to-date knowledge base @Docs, Forums, etc! | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
+        </a>
+        """
+        st.sidebar.markdown(product_hunt_badge, unsafe_allow_html=True)
+        st.divider()
         st.markdown('[Learn more about WhatsUpDoc](/about).')
         st.divider()
 
@@ -234,6 +241,8 @@ def configure_sidebar():
           st.success("OpenAI API Key is Set")
         st.caption("Vote For the Next Integration 👇")
         st.link_button("Join our Discord 👾", url='https://discord.gg/VjEhmn2h')
+
+
         
 
 
