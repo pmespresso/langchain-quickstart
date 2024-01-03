@@ -196,6 +196,12 @@ def configure_sidebar():
                 'heading': 'Stripe SDK Documentation + Stripe Guides',
                 'placeholder_query': 'How do I create a customer with Stripe?'
             },
+            'Solana SDK': {
+                'name': 'Solana SDK',
+                'table_name': 'solana_documents',
+                'heading': 'Solana SDK Documentation + Github Discussions',
+                'placeholder_query': 'How do I run a full node on Solana?'
+            },
         }
         tech_stack = st.selectbox(
             label="Choose Tech", 
